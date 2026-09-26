@@ -20,46 +20,58 @@ public class MobilePhone {
     }
 
     public boolean addNewContact(Contact contact){
-        if(!this.myContacts.contains(contact)){
-            this.myContacts.add(contact);
-            return true;
+        // Aynı isimde biri zaten varsa ekleme
+        if(findContact(contact.getName()) >= 0){
+            return false;
         }
-        return false;
+        this.myContacts.add(contact);
+        return true;
     }
-    public boolean updateContact(Contact oldContact,Contact newContact){
-        if(this.myContacts.contains(oldContact)){
-            oldContact.setPhoneNumber(newContact.getPhoneNumber());
-            oldContact.setName(newContact.getName());
-            return true;
-        }
-        return false;
-    }
-    public boolean removeContact(Contact contact){
-        if(this.myContacts.contains(contact)){
-            this.myContacts.remove(contact);
-            return true;
-        }
-        return false;
-    }
-    public int findContact(Contact contact){
-        if(this.myContacts.contains(contact)){
-          return this.myContacts.indexOf(contact);
 
+    public boolean updateContact(Contact oldContact, Contact newContact){
+        int foundPosition = findContact(oldContact.getName());
+        if(foundPosition < 0){
+            return false;
+        }
+        this.myContacts.set(foundPosition, newContact);
+        return true;
+    }
+
+    public boolean removeContact(Contact contact){
+        int foundPosition = findContact(contact.getName());
+        if(foundPosition < 0){
+            return false;
+        }
+        this.myContacts.remove(foundPosition);
+        return true;
+    }
+
+    public int findContact(Contact contact){
+        return this.myContacts.indexOf(contact);
+    }
+
+    public int findContact(String contactName) {
+        for(int i = 0; i < this.myContacts.size(); i++){
+            Contact contact = this.myContacts.get(i);
+            if(contact.getName().equals(contactName)) {
+                return i;
+            }
         }
         return -1;
     }
+
     public Contact queryContact(String contactName){
-        for(Contact myContact : myContacts){
-            if(myContact.getName().equals(contactName)) {
-                return myContact;
-            }
+        int position = findContact(contactName);
+        if(position >= 0){
+            return this.myContacts.get(position);
         }
-       return null;
+        return null;
     }
+
     public void printContact(){
-        for(Contact myContact : myContacts){
-            int index = myContacts.indexOf(myContact)+1;
-            System.out.println(index + ". " + myContact.getName() + " -> " + myContact.getPhoneNumber() );
+        for(int i = 0; i < myContacts.size(); i++){
+            Contact myContact = myContacts.get(i);
+            System.out.println((i + 1) + ". " + myContact.getName() + " -> " + myContact.getPhoneNumber() );
         }
     }
 }

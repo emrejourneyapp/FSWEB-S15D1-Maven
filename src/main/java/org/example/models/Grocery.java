@@ -31,7 +31,7 @@ public class Grocery {
         }
     }
 
-    public void addItems(String input){
+    public static void addItems(String input){
         //input : elma / elma,armut / elma, armut, muz /
         String[] items = input.split(",");
         for(String item : items){
@@ -44,7 +44,7 @@ public class Grocery {
         }
         printSorted();
     }
-    public void removeItems(String input){
+    public static void removeItems(String input){
         String[] items = input.split(",");
         for(String item : items){
             item = item.trim();
@@ -56,10 +56,10 @@ public class Grocery {
         }
         printSorted();
     }
-    public boolean checkItemIsInList(String product){
+    public static boolean checkItemIsInList(String product){
         return groceryList.contains(product);//küçük büyük harf
     }
-    public void printSorted(){
+    public static void printSorted(){
         Collections.sort(groceryList);
         System.out.println(groceryList);
     }
